@@ -1,0 +1,55 @@
+; ============================================================
+; Q1 Problem 1 — Simple Instance
+; domain.pddl + problem1_simple.pddl
+; Planner: ENHSP (editor.planning.domains)
+; ============================================================
+
+domain parsed
+problem parsed
+grounding..
+grounding time: 22
+aibr preprocessing
+|f|:6  |x|:1  |a|:6  |p|:0  |e|:0
+h1 setup time (msec): 6
+g(n)= 3.0  h(n)=1.0
+problem solved
+
+found plan:
+0.0: (move base site-a)
+1.0: (collect-sample sample1 site-a)
+2.0: (move site-a base)
+3.0: (deliver-sample sample1 base)
+
+plan-length: 4
+metric (search): 4.0
+planning time (msec): 15
+battery-remaining: 40  [60 - 10 - 10 = 40] ✓
+
+; ============================================================
+; Q1 Problem 2 — Non-Trivial Instance
+; domain.pddl + problem2_nontrivial.pddl
+; battery=130 (exact minimum — any detour fails)
+; ============================================================
+
+found plan:
+0:  (move base site-a)           ; bat: 130→120
+1:  (collect-sample sample1 site-a)
+2:  (move site-a base)           ; bat: 120→110
+3:  (deliver-sample sample1 base)
+4:  (move base site-a)           ; bat: 110→100
+5:  (move site-a site-b)         ; bat: 100→90
+6:  (collect-sample sample2 site-b)
+7:  (move site-b site-a)         ; bat: 90→80
+8:  (move site-a base)           ; bat: 80→70
+9:  (deliver-sample sample2 base)
+10: (move base site-a)           ; bat: 70→60
+11: (move site-a site-b)         ; bat: 60→50
+12: (move site-b site-c)         ; bat: 50→35
+13: (collect-sample sample3 site-c)
+14: (move site-c site-b)         ; bat: 35→20
+15: (move site-b site-a)         ; bat: 20→10
+16: (move site-a base)           ; bat: 10→0
+17: (deliver-sample sample3 base)
+
+plan-length: 18
+battery-remaining: 0  [exact minimum] ✓
