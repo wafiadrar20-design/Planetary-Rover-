@@ -17,7 +17,7 @@
 
 ## The problem
 
-A wheeled rover must visit 4 locations on a planetary surface, collect geological
+A wheeled rover must visit locations on a planetary surface, collect geological
 samples, and bring them back to base — all without exceeding its battery capacity.
 No obstacles appear or disappear. The full graph is known before planning starts.
 
@@ -27,6 +27,7 @@ No obstacles appear or disappear. The full graph is known before planning starts
    (10)                              (15)
     ▼                                  ▼
   site-A ◄──────────────────────── site-C
+              (via waypoint1: 15+20)
 ```
 
 One sample per site. Rover carries one at a time. Must return to base after each.
@@ -49,7 +50,7 @@ the planner genuinely cannot skip the constraint — it must route around it.
 | Problem | Initial battery | Steps | What happens |
 |---------|----------------|-------|--------------|
 | `problem1_simple.pddl` | 60 | 4 | 1 sample, trivial round-trip |
-| `problem2_nontrivial.pddl` | 130 | 18 | 3 samples — 130 is the exact minimum; any detour makes it unsolvable |
+| `problem2_nontrivial.pddl` | 130 | 16 | 3 samples — planner finds optimal routing across 3 trips |
 
 ---
 
@@ -77,8 +78,8 @@ explicit link between them. Drain rates are per-time-unit, not per-action.
 
 | Problem | Battery | What it shows |
 |---------|---------|---------------|
-| `problem1_idle.pddl` | 80 (60 fails) | 5-tick collection costs 5 idle units — Q1 misses this entirely |
-| `problem2_timing.pddl` | 310 | trip order determines whether battery survives to the second sample |
+| `problem1_idle.pddl` | 80 | Continuous drain active — system-ok gates all actions |
+| `problem2_timing.pddl` | 80 | 2 samples, planner picks optimal trip order to stay above threshold |
 
 ---
 
