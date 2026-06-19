@@ -35,10 +35,6 @@ Expanded Nodes: 75
 States Evaluated: 151
 Number of Dead-Ends detected: 1
 
-; |P|=1 (idle-drain process active throughout)
-; |E|=1 (battery-critical event armed — fires if battery <= threshold)
-; system-ok gates all actions — mission completes before event fires ✓
-
 ; ============================================================
 ; Q2 Problem 2 — Timing of Actions Matters
 ; domain_plus.pddl + problem2_timing.pddl
@@ -81,8 +77,3 @@ Planning Time (msec): 15
 Expanded Nodes: 154
 States Evaluated: 458
 Number of Dead-Ends detected: 3
-
-; |P|=1 (idle-drain active) |E|=1 (battery-critical armed)
-; planner chose site-B first (direct edge, cost 20)
-; then site-A (cost 10+10 via base) — optimal ordering
-; mission completes above critical-threshold=5 ✓
