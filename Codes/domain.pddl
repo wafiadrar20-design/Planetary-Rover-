@@ -8,28 +8,28 @@
   (:requirements :strips :typing :numeric-fluents)
 
   (:types
-    location  ;; discrete waypoints on the planetary surface
-    sample    ;; geological samples to be collected
+    location  
+    sample    
   )
 
   (:predicates
     ;; Navigation
-    (at-rover ?l - location)           ;; rover is at location l
-    (connected ?l1 ?l2 - location)     ;; edge exists between l1 and l2 (directed)
+    (at-rover ?l - location)           
+    (connected ?l1 ?l2 - location)     
 
     ;; Sample lifecycle
-    (sample-at ?s - sample ?l - location)   ;; sample s is waiting at location l
-    (carrying ?s - sample)                  ;; rover is currently carrying sample s
-    (delivered ?s - sample)                 ;; sample s has been delivered to base
+    (sample-at ?s - sample ?l - location)   
+    (carrying ?s - sample)                  
+    (delivered ?s - sample)                 
 
     ;; Infrastructure
-    (is-base ?l - location)            ;; l is the base station
-    (has-sample ?l - location)         ;; l is a collection site (has a sample)
+    (is-base ?l - location)           
+    (has-sample ?l - location)         
   )
 
   (:functions
-    (battery-level)                    ;; current battery charge (0–100)
-    (move-cost ?l1 ?l2 - location)    ;; energy cost to traverse edge (l1→l2)
+    (battery-level)                    
+    (move-cost ?l1 ?l2 - location)    
   )
 
   ;; ----------------------------------------------------------
@@ -42,7 +42,7 @@
     :precondition (and
       (at-rover ?from)
       (connected ?from ?to)
-      (>= (battery-level) (move-cost ?from ?to))   ;; enough charge
+      (>= (battery-level) (move-cost ?from ?to))   
     )
     :effect (and
       (not (at-rover ?from))
@@ -55,10 +55,6 @@
   ;; ACTION: collect-sample
   ;; Pick up a geological sample at the current location.
   ;; The rover can carry at most one sample at a time
-  ;; (enforced by the absence of a second carrying predicate
-  ;;  with a different sample — the planner cannot satisfy
-  ;;  two simultaneous carrying facts for different samples
-  ;;  if the problem goal only needs one delivery at a time).
   ;; ----------------------------------------------------------
   (:action collect-sample
     :parameters (?s - sample ?l - location)
